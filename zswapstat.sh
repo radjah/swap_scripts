@@ -6,6 +6,12 @@ then
   exit 1
 fi
 
+if [ ! -e /sys/kernel/debug/zswap ]
+then
+  echo debugfs not mounted or zswap not used!
+  exit 1
+fi
+
 zswap_pool_total_size=$(</sys/kernel/debug/zswap/pool_total_size)
 zswap_stored_pages=$(</sys/kernel/debug/zswap/stored_pages)
 page_size=$(getconf PAGE_SIZE)
