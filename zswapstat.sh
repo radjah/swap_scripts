@@ -18,6 +18,7 @@ page_size=$(getconf PAGE_SIZE)
 swap_used=$(cat /proc/meminfo | awk '/SwapTotal/ { total = $2}; /SwapFree/ {swapfree = $2 }; END {print (total - swapfree) * 1024 }')
 
 awk '/Swap/ { printf "%-15s %10d KiB (%8.2f MiB)\n", $1, $2, $2 / 1024}' /proc/meminfo
+echo $swap_used | awk '{printf "%-15s %10d KiB (%8.2f MiB)\n", "Swap usage:", $1 / 1024, $1 / 1024 / 1024}'
 echo $zswap_pool_total_size | awk '{printf "%-15s %10d KiB (%8.2f MiB)\n", "Mem usage:", $1 / 1024, $1 / 1024 / 1024}'
 echo $zswap_stored_pages $page_size | awk '{ zswapkb =  $1 * $2 / 1024; printf "%-15s %10d KiB (%8.2f MiB)\n", "Stored:", zswapkb, zswapkb / 1024}'
 echo $zswap_stored_pages $page_size $zswap_pool_total_size | awk '{printf "%-15s %14.3f\n", "Comp. ratio:", $1 * $2 / $3}'
