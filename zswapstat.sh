@@ -21,5 +21,5 @@ awk '/Swap/ { printf "%-15s %10d KiB (%8.2f MiB)\n", $1, $2, $2 / 1024}' /proc/m
 echo $swap_used | awk '{printf "%-15s %10d KiB (%8.2f MiB)\n", "Swap usage:", $1 / 1024, $1 / 1024 / 1024}'
 echo $zswap_pool_total_size | awk '{printf "%-15s %10d KiB (%8.2f MiB)\n", "Mem usage:", $1 / 1024, $1 / 1024 / 1024}'
 echo $zswap_stored_pages $page_size | awk '{ zswapkb =  $1 * $2 / 1024; printf "%-15s %10d KiB (%8.2f MiB)\n", "Stored:", zswapkb, zswapkb / 1024}'
-echo $zswap_stored_pages $page_size $zswap_pool_total_size | awk '{printf "%-15s %14.3f\n", "Comp. ratio:", $1 * $2 / $3}'
+echo $zswap_stored_pages $page_size $zswap_pool_total_size | awk '{if ($3==0) poolsize=1; else poolsize=$3; printf "%-15s %14.3f\n", "Comp. ratio:", $1 * $2 / poolsize}'
 echo $swap_used $zswap_stored_pages $page_size | awk '{swapdisk = ($1 - $2 * $3) / 1024; printf "%-15s %10d KiB (%8.2f MiB)\n", "Swap on disk:",swapdisk, swapdisk / 1024}'
