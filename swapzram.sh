@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ $UID -ne 0 ]
+then
+  echo You are not ROOT!
+  exit 1
+fi
+
 iszram=$(lsmod|grep zram|wc -l)
 if [ $iszram -eq 0 ]
 then
